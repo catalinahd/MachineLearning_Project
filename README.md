@@ -1,9 +1,10 @@
 ---
-title: "Machine Learning Project"
+title: "Practical Machine Learning Project"
 author: "Catalina Herrera"
 date: "June 5, 2016"
 output: html_document
 ---
+
 
 
 
@@ -34,16 +35,6 @@ testing <- source_data(testurl, na.strings = c("NA", "#DIV/0!", ""), header = TR
  training <- training[, colSums(is.na(training)) == 0]
  testing <- testing[, colSums(is.na(testing)) == 0]
  
-# remove near zero covariates
- 
- nsv <- nearZeroVar(training, saveMetrics = T)
- training <- training[, !nsv$nzv]
- 
-# remove variables with more than 80% missing values
-
- nav <- sapply(colnames(training), function(x) if(sum(is.na(training[, x])) > 
- 0.8*nrow(training)){return(T)}else{return(F)})
- training <- training[, !nav]
 ```
 
 ##Calculate correlations
@@ -74,6 +65,8 @@ control <- trainControl(method = "cv", number = 5)
  print(fit_rpart, digits = 4)
 ```
 
+
+
 ####Predict outcomes using validation set
 ```
 predict_rpart <- predict(fit_rpart, valid)
@@ -88,8 +81,13 @@ predict_rpart <- predict(fit_rpart, valid)
 
 ####Accuracy Classification trees
 ```
-(accuracy_rpart <- conf_rpart$overall[1])
+(accuracy_rpart <- co
+nf_rpart$overall[1])
 ```
+ Accuracy 
+0.6618522
+
+
 #Second Model
 ##Random Forest 
  ```
@@ -115,7 +113,10 @@ predict_rf <- predict(fit_rf, valid)
  (accuracy_rf <- conf_rf$overall[1])
 ```
 
+Accuracy 
+0.9998301 
  
+#Conclusion
  Random Forests yielded better Results.
  Accuracy ~99% may be due to the fact that many 
  predictors are highly correlated. Random forests 
@@ -127,13 +128,7 @@ predict_rf <- predict(fit_rf, valid)
  (predict(fit_rf, testData)) 
 ```
  
- 
- 
+###Results:
+[1] A A A A A A A A A A A A A A A A A A A A
+Levels: A B C D E
 
-
-## Including Plots
-
-###Clasification tree Results
-
-```fancyRpartPlot(fit_rpart$finalModel)
-```
